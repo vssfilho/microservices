@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import academy.devdojo.youtube.course.endpoint.model.Course;
+import academy.devdojo.youtube.core.model.Course;
 import academy.devdojo.youtube.course.endpoint.service.CourseService;
 import lombok.RequiredArgsConstructor;
 
