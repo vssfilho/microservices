@@ -12,9 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
+import academy.devdojo.youtube.auth.security.filter.JwtUsernameAndPasswordAuthenticationFilter;
 import academy.devdojo.youtube.core.property.JwtConfiguration;
 import lombok.RequiredArgsConstructor;;
 
@@ -32,12 +32,19 @@ public class SecurityCredendialsConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
-				.and().sessionManagement().sessionCreationPolicy(STATELESS).and().exceptionHandling()
-				.authenticationEntryPoint((req, resp, e) -> resp.sendError(HttpServletResponse.SC_UNAUTHORIZED)).and()
-				.addFilter(new UsernamePasswordAuthenticationFilter()).authorizeRequests()
-				.antMatchers(jwtConfiguration.getLoginUrl()).permitAll().antMatchers("/course/admin/**")
-				.hasRole("ADMIN").anyRequest().authenticated();
+		http
+		.csrf().disable()
+		.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+		.and()
+		.sessionManagement().sessionCreationPolicy(STATELESS)
+		.and()
+		.exceptionHandling().authenticationEntryPoint((req, resp, e) -> resp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+		.and()
+		.addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfiguration))
+		.authorizeRequests()
+		.antMatchers(jwtConfiguration.getLoginUrl()).permitAll()
+		.antMatchers("/course/admin/**").hasRole("ADMIN")
+		.anyRequest().authenticated();
 	}
 
 	@Bean
