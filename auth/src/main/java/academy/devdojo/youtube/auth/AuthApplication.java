@@ -11,10 +11,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import academy.devdojo.youtube.core.property.JwtConfiguration;
 
 @SpringBootApplication
-@EnableConfigurationProperties(value = JwtConfiguration.class)
 @EntityScan({ "academy.devdojo.youtube.core.model" })
 @EnableJpaRepositories("academy.devdojo.youtube.core.repository")
 @EnableEurekaClient
+@EnableConfigurationProperties(value = JwtConfiguration.class)
 @ComponentScan("academy.devdojo.youtube")
 public class AuthApplication {
 

@@ -14,7 +14,7 @@ import academy.devdojo.youtube.course.endpoint.service.CourseService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("v1/admin/course")
+@RequestMapping("admin/course")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CourseController {
 
